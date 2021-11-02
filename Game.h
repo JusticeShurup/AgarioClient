@@ -3,6 +3,7 @@
 #include "SFML/Graphics.hpp"
 #include "SFML/System.hpp"
 #include "Player.h"
+#include "Server.h"
 
 class Game
 {
@@ -14,7 +15,9 @@ public:
 	void initMainPlayer();
 
 	void run();
+	
 	void update();
+	void updateNet();
 	void render();
 
 private:
@@ -22,6 +25,9 @@ private:
 	sf::RenderWindow *window;
 	sf::Event event;
 	sf::Clock clock;
+
+	Server server;
+
 	float delta_time;
 
 	Player *main_player;

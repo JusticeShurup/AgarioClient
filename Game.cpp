@@ -1,10 +1,12 @@
 #include "Game.h"
-
+#include <iostream>
 Game::Game(int width, int heigth) :
-	is_running(true)
+	is_running(true), 
+	server("127.0.0.1:1337")
 {
 	initWindow(width, heigth);
 	initMainPlayer();
+	server.run();
 }
 
 Game::~Game(){
@@ -16,7 +18,7 @@ void Game::initWindow(int width, int heigth) {
 	window_size = sf::Vector2i(width, heigth);
 	sf::ContextSettings settings;
 	settings.antialiasingLevel = 50;
-	window = new sf::RenderWindow(sf::VideoMode(window_size.x, window_size.y), "TicTacToe");
+	window = new sf::RenderWindow(sf::VideoMode(window_size.x, window_size.y), "Agar.io", sf::Style::Default, settings);
 }
 
 void Game::initMainPlayer() {
@@ -31,9 +33,7 @@ void Game::run() {
 }
 
 void Game::update() {
-	delta_time = clock.getElapsedTime().asMicroseconds();
-	clock.restart();
-	delta_time /= 800;
+	delta_time = clock.restart().asSeconds();
 
 	while (window->pollEvent(event)) {
 		if (event.type == sf::Event::Closed) {
@@ -41,7 +41,15 @@ void Game::update() {
 			window->close();
 		}
 	}
+
 	main_player->update(event, delta_time);
+	updateNet();
+	main_player->setCoordinates(server.getCoordinates());
+}
+
+void Game::updateNet() {
+	float data[2] = { main_player->getdX(), main_player->getdY() };
+	server.sendDeltaCoordinates(data);
 }
 
 void Game::render() {

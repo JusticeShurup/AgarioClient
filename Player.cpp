@@ -10,6 +10,8 @@ Player::Player(sf::Vector2f coordinates, float size, std::string nickname) :
 
 	player_nickname = sf::Text(nickname, player_nickname_font);
 	setNickname(nickname);
+
+	dX = 0; dY = 0;
 }
 
 Player::~Player() {
@@ -28,6 +30,15 @@ void Player::setCoordinates(float x, float y) {
 								player_circle->getGlobalBounds().height / 2 - player_nickname.getGlobalBounds().height / 2 + coordinates.y);
 }
 
+void Player::setCoordinates(sf::Vector2f coordinates) {
+	this->coordinates = coordinates;
+	player_circle->setPosition(coordinates);
+	player_nickname.setPosition(coordinates);
+	player_nickname.setPosition(player_circle->getGlobalBounds().width / 2 - player_nickname.getGlobalBounds().width / 2 + coordinates.x,
+								player_circle->getGlobalBounds().height / 2 - player_nickname.getGlobalBounds().height / 2 + coordinates.y);
+
+}
+
 std::string Player::getNickname() {
 	return nickname;
 }
@@ -38,6 +49,14 @@ void Player::setNickname(std::string nickname) {
 	player_nickname.setFillColor(sf::Color::Black);
 	player_nickname.setPosition(player_circle->getGlobalBounds().width / 2 - player_nickname.getGlobalBounds().width / 2,
 								player_circle->getGlobalBounds().height / 2 - player_nickname.getGlobalBounds().height / 2);
+}
+
+float Player::getdX() const{
+	return dX;
+}
+
+float Player::getdY() const {
+	return dY;
 }
 
 void Player::update(sf::Event& event, float delta_time) {
