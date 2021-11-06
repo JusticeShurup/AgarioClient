@@ -7,24 +7,18 @@ Controller::Controller(){}
 Controller::~Controller() {}
 
 void Controller::update(sf::Event &event, Player *player, float delta_time) {
-	float x = player->getCoordinates().x; 
-	float y = player->getCoordinates().y;
+	int x = player->getCoordinates().x; 
+	int y = player->getCoordinates().y;
 	if(sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
-		player->dY = -(250.f * delta_time);
+		player->setCoordinates(x, y - 1);
 	}
 	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
-		player->dY = 250.f * delta_time;
-	}
-	else {
-		player->dY = 0;
+		player->setCoordinates(x, y + 1);
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
-		player->dX = -(250.f * delta_time);
+		player->setCoordinates(x - 1, y);
 	}
 	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
-		player->dX = 250.f * delta_time;
-	}
-	else {
-		player->dX = 0;
+		player->setCoordinates(x + 1, y);
 	}
 }

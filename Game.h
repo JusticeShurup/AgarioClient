@@ -2,22 +2,27 @@
 #define _GAME_H_
 #include "SFML/Graphics.hpp"
 #include "SFML/System.hpp"
-#include "Player.h"
 #include "Server.h"
+
 
 class Game
 {
 public:
-	Game(int window_width, int window_heigth);
+	Game(int window_width, int window_heigth, std::string server_address);
 	~Game();
 
 	void initWindow(int window_width, int window_heigth);
 	void initMainPlayer();
 
+	Player* getMainPlayer();
+
+	Player* getPlayerByNickname(std::string);
+
+	void addPlayer(Player* player);
+	void removePlayer(std::string player_nickname);
 	void run();
 	
 	void update();
-	void updateNet();
 	void render();
 
 private:
@@ -27,6 +32,7 @@ private:
 	sf::Clock clock;
 
 	Server server;
+	std::map<std::string, Player*> players;
 
 	float delta_time;
 

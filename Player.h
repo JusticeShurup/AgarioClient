@@ -5,27 +5,28 @@
 
 class Player : public sf::Drawable
 {
+
 public:
-	Player(sf::Vector2f coordinates, float size, std::string nickname);
+	static const int MAX_PLAYER_NICKNAME_SIZE = 10;
+	
+	Player(sf::Vector2i coordinates, float size, std::string nickname);
 	~Player();
 
-	sf::Vector2f getCoordinates();
-	void setCoordinates(float x, float y);
-	void setCoordinates(sf::Vector2f coordinates);
+	sf::Vector2i getCoordinates() const;
+	void setCoordinates(int x, int y);
+	void setCoordinates(sf::Vector2i coordinates);
 
 	std::string getNickname();
 	void setNickname(std::string nickname);
 
-	float getdX() const;
-	float getdY() const;
-
+	
 	void update(sf::Event& event, float delta_time);
 	virtual void draw(sf::RenderTarget& window, sf::RenderStates states) const;
 
 
 private:
 	friend class Controller;
-	sf::Vector2f coordinates;
+	sf::Vector2i coordinates;
 	float size;
 	std::string nickname;
 
@@ -35,7 +36,5 @@ private:
 	sf::Font player_nickname_font;
 	sf::Text player_nickname;
 
-	float dX;
-	float dY;
 };
 
